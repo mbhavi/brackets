@@ -194,8 +194,14 @@ define(function (require, exports, module) {
                     installerName = "Brackets." + buildName.split(" ").join(".") + ext,
                     downloadURL;
 
+                var testUrl = PreferencesManager.get("autoUpdate.testUrl");
+                //AUTOUPDATE_UNITTESTING
+                if (testUrl) {
+                    downloadURL = testUrl + "/download/" + tag + "/" + installerName;
+                } else {
                     downloadURL = brackets.config.update_download_url + tag + "/" + installerName;
-
+                }
+                
                 downloadInfo = {
                     installerName: installerName,
                     downloadURL: downloadURL

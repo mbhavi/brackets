@@ -71,6 +71,11 @@ define(function (require, exports, module) {
     // Data about available updates in the registry
     PreferencesManager.stateManager.definePreference("extensionUpdateInfo", "Array", []);
 
+    //Preference for hosting latest installer on a local server
+    //AUTOUPDATE_UNITTESTING
+    PreferencesManager.stateManager.definePreference("autoUpdate.testUrl", "string", "");
+
+
     // URL to load version info from. By default this is loaded no more than once a day. If
     // you force an update check it is always loaded.
 
@@ -102,6 +107,12 @@ define(function (require, exports, module) {
      * return {string} the new version update url
      */
     function _getVersionInfoUrl(locale, removeCountryPartOfLocale) {
+
+        //Override for unittesting with custom url
+        var testUrl = PreferencesManager.get("autoUpdate.testUrl");
+        if (testUrl) {
+            return testUrl + "/updates.json";
+        }
 
         locale = locale || brackets.getLocale();
 
